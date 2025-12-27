@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* =========================================
+   ROOT THEME
+========================================= */
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +27,217 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.65;
+}
+
+/* =========================================
+   TYPOGRAPHIC MICRO-REFINEMENT
+========================================= */
+
+p {
+  letter-spacing: 0.01em;
+}
+
+ul li {
+  letter-spacing: 0.01em;
+}
+
+/* =========================================
+   CINEMATIC FILM GRAIN (VERY SUBTLE)
+========================================= */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+/* =========================================
+   HOME / WORMHOLE TEXT ANIMATION
+========================================= */
+
+@keyframes coreWord {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(6px);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+    filter: blur(8px);
+  }
+}
+
+.worm-word {
+  animation: coreWord 1.2s ease-in-out forwards;
+  letter-spacing: 0.4em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #e6fbff;
+  text-shadow:
+    0 0 6px rgba(0, 200, 255, 0.35),
+    0 0 12px rgba(0, 200, 255, 0.25),
+    0 0 24px rgba(0, 200, 255, 0.15);
+}
+
+/* =========================================
+   MOTION FRAME SCAN
+========================================= */
+
+@keyframes scan {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+.motion-frame:hover span {
+  animation-play-state: paused;
+}
+
+/* =========================================
+   SECURE DECRYPT GLASS SYSTEM
+========================================= */
+
+.decrypt-box {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* Subtle Z-depth on hover (desktop only) */
+@media (hover: hover) {
+  .decrypt-box:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.45);
+  }
+}
+
+.decrypt-content {
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(6px);
+  transition:
+    opacity 0.35s ease,
+    filter 0.35s ease,
+    transform 0.35s ease;
+}
+
+.decrypt-box:hover .decrypt-content {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.decrypt-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255,255,255,0.08) 8%,
+      transparent 16%
+    );
+  transform: translateX(-120%);
+  transition: transform 0.45s ease;
+  pointer-events: none;
+}
+
+.decrypt-box:hover::before {
+  transform: translateX(120%);
+}
+
+.decrypt-hint {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.45);
+  transition: opacity 0.3s ease;
+}
+
+.decrypt-box:hover .decrypt-hint {
+  opacity: 0;
+}
+
+/* =========================================
+   CORNER ACCENT SYSTEM
+========================================= */
+
+.decrypt-corner {
+  opacity: 0.35;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.decrypt-box:hover .decrypt-corner {
+  opacity: 0.75;
+}
+
+.decrypt-corner.tl {
+  transform: translate(-2px, -2px);
+}
+
+.decrypt-corner.br {
+  transform: translate(2px, 2px);
+}
+
+.decrypt-box:hover .decrypt-corner {
+  transform: translate(0, 0);
+}
+
+/* =========================================
+   ACCESSIBILITY & MOBILE SAFETY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .decrypt-box::before {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  .decrypt-content {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .decrypt-hint {
+    display: none;
+  }
+
+  .decrypt-box::before {
+    display: none;
+  }
+
+  .decrypt-corner {
+    opacity: 0.6;
+    transform: translate(0, 0);
+  }
 }
