@@ -26,7 +26,9 @@ export default function Header() {
       ? navLinks[currentIndex + 1]
       : null
 
-  // ✅ Hooks must always run
+  /* ==============================
+     KEYBOARD NAV (N → NEXT)
+  ============================== */
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (
@@ -43,18 +45,33 @@ export default function Header() {
     return () => window.removeEventListener("keydown", handleKey)
   }, [nextLink, router])
 
-  // ✅ Conditional return AFTER hooks
+  /* ==============================
+     MOBILE SCROLL LOCK FIX
+  ============================== */
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [open])
+
+  // Hide header on landing page
   if (pathname === "/") return null
 
   return (
     <header className="fixed top-0 z-50 w-full bg-black/80 backdrop-blur border-b border-white/10">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 md:px-8 py-4">
         {/* LEFT */}
         <div className="text-sm tracking-widest text-white/70">
           VISHAL • SECURITY
         </div>
 
-        {/* CENTER */}
+        {/* CENTER (DESKTOP NAV) */}
         <nav className="hidden lg:flex gap-6 text-sm">
           {navLinks.map(link => (
             <Link
@@ -71,18 +88,20 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* RIGHT */}
+        {/* RIGHT (MENU BUTTON) */}
         <button
           onClick={() => setOpen(!open)}
-          className="text-white/70 hover:text-white transition text-xl"
-          aria-label="Command Menu"
+          className="flex items-center gap-2 text-white/70 hover:text-white transition text-sm"
+          aria-label="Open Menu"
         >
-          ≡
+          <span className="lg:hidden">Menu</span>
+          <span className="text-xl">≡</span>
         </button>
       </div>
 
+      {/* COMMAND MENU */}
       {open && (
-        <div className="absolute right-8 top-full mt-2 w-72 rounded-md border border-white/10 bg-black/95 backdrop-blur-xl shadow-lg">
+        <div className="absolute right-4 md:right-8 top-full mt-2 w-72 rounded-md border border-white/10 bg-black/95 backdrop-blur-xl shadow-lg">
           <div className="px-4 py-3 text-xs tracking-widest text-white/50">
             SYSTEM STATUS
           </div>
@@ -97,11 +116,11 @@ export default function Header() {
 
           <div className="border-t border-white/10" />
 
-          <div className="flex flex-col px-4 py-4 gap-3 text-sm">
+          <div className="flex flex-col px-4 py-4 gap-2 text-sm">
             <Link
               href="/contact"
               onClick={() => setOpen(false)}
-              className="text-white/70 hover:text-white transition"
+              className="py-2 text-white/70 hover:text-white transition"
             >
               Contact
             </Link>
@@ -109,14 +128,14 @@ export default function Header() {
             <a
               href="/resume.pdf"
               target="_blank"
-              className="text-white/70 hover:text-white transition"
+              className="py-2 text-white/70 hover:text-white transition"
             >
               View Resume
             </a>
 
             <a
               href="mailto:vishal630488@gmail.com"
-              className="text-white/70 hover:text-white transition"
+              className="py-2 text-white/70 hover:text-white transition"
             >
               Email
             </a>
@@ -124,7 +143,7 @@ export default function Header() {
             <a
               href="https://github.com/vis-alin"
               target="_blank"
-              className="text-white/70 hover:text-white transition"
+              className="py-2 text-white/70 hover:text-white transition"
             >
               GitHub
             </a>
@@ -132,7 +151,7 @@ export default function Header() {
             <a
               href="https://www.linkedin.com/in/vishal-kumar-11s10v20"
               target="_blank"
-              className="text-white/70 hover:text-white transition"
+              className="py-2 text-white/70 hover:text-white transition"
             >
               LinkedIn
             </a>
@@ -143,7 +162,7 @@ export default function Header() {
                 <Link
                   href={nextLink.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between text-white/80 hover:text-white transition"
+                  className="flex items-center justify-between py-2 text-white/80 hover:text-white transition"
                 >
                   <span className="text-xs tracking-widest">
                     NEXT (N)

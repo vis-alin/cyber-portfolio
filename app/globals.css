@@ -28,22 +28,20 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.65;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* =========================================
    TYPOGRAPHIC MICRO-REFINEMENT
 ========================================= */
 
-p {
-  letter-spacing: 0.01em;
-}
-
+p,
 ul li {
   letter-spacing: 0.01em;
 }
 
 /* =========================================
-   CINEMATIC FILM GRAIN (VERY SUBTLE)
+   CINEMATIC FILM GRAIN (NON-BLOCKING)
 ========================================= */
 
 body::after {
@@ -53,7 +51,7 @@ body::after {
   pointer-events: none;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
-  z-index: 1;
+  z-index: 0;
 }
 
 /* =========================================
@@ -118,12 +116,11 @@ body::after {
     box-shadow 0.35s ease;
 }
 
-/* Subtle Z-depth on hover (desktop only) */
+/* Desktop elevation only */
 @media (hover: hover) {
   .decrypt-box:hover {
     transform: translateY(-2px);
-    box-shadow:
-      0 18px 40px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
   }
 }
 
@@ -190,6 +187,7 @@ body::after {
 
 .decrypt-box:hover .decrypt-corner {
   opacity: 0.75;
+  transform: translate(0, 0);
 }
 
 .decrypt-corner.tl {
@@ -198,10 +196,6 @@ body::after {
 
 .decrypt-corner.br {
   transform: translate(2px, 2px);
-}
-
-.decrypt-box:hover .decrypt-corner {
-  transform: translate(0, 0);
 }
 
 /* =========================================
@@ -221,15 +215,16 @@ body::after {
   }
 }
 
+/* 🔥 CRITICAL MOBILE FIX */
 @media (hover: none) {
   .decrypt-content {
-    opacity: 1;
-    filter: none;
-    transform: none;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
   }
 
   .decrypt-hint {
-    display: none;
+    display: none !important;
   }
 
   .decrypt-box::before {
